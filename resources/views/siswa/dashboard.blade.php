@@ -94,7 +94,7 @@
                     <div>
                         <h3 class="text-sm font-black text-gray-800">Progress Pengaduanmu</h3>
                         <p class="text-xs text-gray-400 mt-0.5">
-                            {{ $ditanggapi }} dari {{ $total }} Pengaduanmu sudah diselesaikan
+                            {{ $ditanggapi }} dari {{ $totalAktif }} Pengaduanmu sudah diselesaikan
                         </p>
                     </div>
                     <span class="text-3xl font-black text-[#6b1a1a]">{{ $persenDitanggapi }}%</span>
@@ -217,11 +217,13 @@
                                 <td class="px-6 py-4 text-gray-400 text-xs">{{ $item->tgl_pengaduan }}</td>
                                 <td class="px-6 py-4">
                                     @if($item->status == '0')
-                                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">Menunggu</span>
+                                        <span class="px-3 py-1 rounded-full text-[10px] uppercase font-black bg-yellow-100 text-yellow-700">Menunggu</span>
                                     @elseif($item->status == '1')
-                                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">Diproses</span>
+                                        <span class="px-3 py-1 rounded-full text-[10px] uppercase font-black bg-blue-100 text-blue-700">Diproses</span>
                                     @elseif($item->status == '2')
-                                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">Selesai</span>
+                                        <span class="px-3 py-1 rounded-full text-[10px] uppercase font-black bg-green-100 text-green-700">Selesai</span>
+                                    @elseif($item->status == '3')
+                                        <span class="px-3 py-1 rounded-full text-[10px] uppercase font-black bg-gray-100 text-gray-700">Ditolak</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">

@@ -86,7 +86,7 @@
                 <div class="flex items-center justify-between mb-3">
                     <div>
                         <h3 class="text-sm font-black text-gray-800">Progress Tanggapan</h3>
-                        <p class="text-xs text-gray-400 mt-0.5">{{ $ditanggapi }} dari {{ $total }} Pengaduan sudah diselesaikan</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $ditanggapi }} dari {{ $totalAktif }} Pengaduan sudah diselesaikan</p>
                     </div>
                     <span class="text-3xl font-black text-[#6b1a1a]">{{ $persenDitanggapi }}%</span>
                 </div>

@@ -47,7 +47,7 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact(
             'pengaduans', 'total', 'menunggu', 'diproses', 'selesai', 'ditolak',
-            'ditanggapi', 'belumDitanggapi', 'persenDitanggapi',
+            'ditanggapi', 'belumDitanggapi', 'persenDitanggapi', 'totalAktif', 
             'statusFilter', 'searchQuery'
         ));
     }

@@ -36,7 +36,7 @@ class SiswaController extends Controller
 
         return view('siswa.dashboard', compact(
             'pengaduans', 'total', 'menunggu', 'diproses', 'selesai', 'ditolak',
-            'ditanggapi', 'belumDitanggapi', 'persenDitanggapi', 'statusFilter'
+            'ditanggapi', 'belumDitanggapi', 'persenDitanggapi', 'statusFilter', 'totalAktif'
         ));
     }
 }
