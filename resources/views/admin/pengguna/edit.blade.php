@@ -37,26 +37,29 @@
             </a>
             <div>
                 <p class="text-xs text-gray-400 font-medium">Manajemen Pengguna</p>
-                <h1 class="text-base font-bold text-[#6b1a1a] leading-tight">Tambah Pengguna</h1>
+                <h1 class="text-base font-bold text-[#6b1a1a] leading-tight">Edit Pengguna</h1>
             </div>
         </header>
 
         <main class="flex-1 px-8 py-6">
             <div class="max-w-lg">
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-6">
-                    <form method="POST" action="{{ route('admin.pengguna.store') }}">
-                        @csrf
 
+                    {{-- ACTION ke update, METHOD di-spoof jadi PUT --}}
+                    <form method="POST" action="{{ route('admin.pengguna.update', $user->id) }}">
+                        @csrf
+                        @method('PUT')
+
+                        {{-- NIS/NIP: readonly, tidak bisa diubah --}}
                         <div class="mb-4">
                             <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
-                                NIS / NIP <span class="text-red-400">*</span>
+                                NIS / NIP
+                                <span class="ml-1 text-[10px] font-normal text-gray-400 normal-case tracking-normal">(tidak dapat diubah)</span>
                             </label>
-                            <input type="text" name="nis_nip"
-                                value="{{ old('nis_nip', $user->nis_nip) }}"
-                                class="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#6b1a1a] transition">
-                            @error('nis_nip')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
+                            <input type="text"
+                                value="{{ $user->nis_nip }}"
+                                disabled
+                                class="w-full text-sm border border-gray-100 bg-gray-50 text-gray-400 rounded-xl px-4 py-2.5 cursor-not-allowed">
                         </div>
 
                         <div class="mb-4">
@@ -104,19 +107,33 @@
                             @enderror
                         </div>
 
+                        {{-- Password opsional — kosongkan jika tidak ingin ganti --}}
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
+                                Password Baru
+                                <span class="ml-1 text-[10px] font-normal text-gray-400 normal-case tracking-normal">(kosongkan jika tidak ingin ganti)</span>
+                            </label>
+                            <input type="password" name="password"
+                                placeholder="Min. 8 karakter"
+                                class="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#6b1a1a] transition">
+                            @error('password')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="mb-6">
                             <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
-                                Konfirmasi Password <span class="text-red-400">*</span>
+                                Konfirmasi Password Baru
                             </label>
                             <input type="password" name="password_confirmation"
-                                placeholder="Ulangi password"
+                                placeholder="Ulangi password baru"
                                 class="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#6b1a1a] transition">
                         </div>
 
                         <div class="flex items-center gap-3">
                             <button type="submit"
                                 class="px-6 py-2.5 bg-[#6b1a1a] hover:bg-[#8b0000] text-white text-xs font-bold rounded-xl transition">
-                                Simpan Pengguna
+                                Simpan Perubahan
                             </button>
                             <a href="{{ route('admin.pengguna.index') }}"
                                 class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-bold rounded-xl transition">

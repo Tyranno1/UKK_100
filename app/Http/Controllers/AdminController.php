@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Pengaduan;
@@ -22,13 +21,13 @@ class AdminController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul_laporan', 'like', "%$search%")
-                ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%b') LIKE ?", ["%$search%"])
-                ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%M') LIKE ?", ["%$search%"])
-                ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%d %b %Y') LIKE ?", ["%$search%"])
-                
-                ->orWhere('id', 'like', "%$search%")
-                ->orWhereHas('user', fn($q) => $q->where('name', 'like', "%$search%"))
-                ->orWhereHas('kategori', fn($q) => $q->where('nama_kategori', 'like', "%$search%"));
+                  ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%b') LIKE ?", ["%$search%"])
+                  ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%M') LIKE ?", ["%$search%"])
+                  ->orWhereRaw("DATE_FORMAT(tgl_pengaduan, '%d %b %Y') LIKE ?", ["%$search%"])
+                  
+                  ->orWhere('id', 'like', "%$search%")
+                  ->orWhereHas('user', fn($q) => $q->where('name', 'like', "%$search%"))
+                  ->orWhereHas('kategori', fn($q) => $q->where('nama_kategori', 'like', "%$search%"));
             });
         }
 
@@ -41,7 +40,8 @@ class AdminController extends Controller
         $selesai          = Pengaduan::where('status', '2')->count();
         $ditolak          = Pengaduan::where('status', '3')->count();
         $selesaiCount     = Pengaduan::where('status', '2')->count();
-        $persenDitanggapi = $total > 0 ? round(($selesaiCount / $total) * 100) : 0;
+        $totalAktif = Pengaduan::whereIn('status', ['0', '1', '2'])->count();
+        $persenDitanggapi = $totalAktif > 0 ? (int) round(($selesaiCount / $totalAktif) * 100) : 0;
         $ditanggapi       = $selesaiCount;
         $belumDitanggapi  = $total - $selesaiCount;
 
@@ -80,7 +80,6 @@ class AdminController extends Controller
         $pengaduan = Pengaduan::with(['user', 'kategori', 'tanggapan.petugas'])->findOrFail($id);
         return view('admin.pengaduan.show', compact('pengaduan'));
     }
-
 
     public function tanggapanStore(Request $request, $id)
     {
@@ -170,9 +169,9 @@ class AdminController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%")
-                ->orWhere('nis_nip', 'like', "%$search%") 
-                ->orWhere('kelas', 'like', "%$search%");
+                  ->orWhere('email', 'like', "%$search%")
+                  ->orWhere('nis_nip', 'like', "%$search%") 
+                  ->orWhere('kelas', 'like', "%$search%");
             });
         }
 
@@ -230,7 +229,7 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
         $request->validate([
-            'nis_nip'  => 'required|string|max:20|unique:users,nis_nip,'. $id,
+            'nis_nip'  => 'nullable|string|max:20|unique:users,nis_nip,'. $id,
             'name'     => 'required|string|max:255',
             'email'    => 'nullable|email|unique:users,email,'. $id,
             'kelas'    => 'nullable|string|max:50',
@@ -265,4 +264,4 @@ class AdminController extends Controller
         return redirect()->route('admin.pengguna.index')
             ->with('success', 'Pengguna berhasil dihapus.');
     }
-    }
+}

@@ -1,37 +1,34 @@
 <?php
-
-
 namespace App\Models;
-
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// Import Attribute untuk fitur Accessor (Laravel 9/10/11)
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
 
 class Pengaduan extends Model
 {
     use HasFactory;
     protected $table = 'pengaduan';
+
     protected $fillable = [
-    'user_id',
-    'kategori_id',
-    'judul_laporan',
-    'isi_laporan',
-    'tgl_pengaduan',
-    'lokasi',        
-    'foto',
-    'status',
-    'processed_at',
-    'completed_at',
-    'rejected_at', 
-];
+        'user_id',
+        'kategori_id',
+        'judul_laporan',
+        'isi_laporan',
+        'tgl_pengaduan',
+        'lokasi',
+        'foto',
+        'status',
+        'processed_at',
+        'completed_at',
+        'rejected_at',
+    ];
+
     protected $casts = [
-    'processed_at' => 'datetime',
-    'completed_at' => 'datetime',
-    'rejected_at'  => 'datetime',
-];
+        'processed_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'rejected_at'  => 'datetime',
+    ];
 
     public function user()
     {
